@@ -9,9 +9,9 @@
 * React - Frontend code to interact with a user, represent functionality with components, and route what is displayed using JavaScript and the React web framework. React helps you to modularize your code into components that represent things like a login form, a picture card, or a interactive part of a game. The routing that React provides changes what is displayed to the user based upon the actions they take. For example, after logging in, React would change the display from the login component, to the game play component.
 
 * Service - Backend server functionality for the following:
-      1. Multiple endpoints (server function calls) that provide functionality necessary to support your application. For example, storing scores, retrieving user preferences, or generating dynamic content.
-      2. Login, logout, and register user support.
-      3. At least one call to a third party (e.g. that you didn't write) service endpoint to do something like suggest a color pallette, get a joke, get the weather, or get images. You can view a list of APIs here: https://github.com/public-apis/public-apisLinks to an external site.. You can make most services work, but the easiest ones to use don't require authentication, support CORS, and require HTTPS.
+1. Multiple endpoints (server function calls) that provide functionality necessary to support your application. For example, storing scores, retrieving user preferences, or generating dynamic content.
+2. Login, logout, and register user support.
+3. At least one call to a third party (e.g. that you didn't write) service endpoint to do something like suggest a color pallette, get a joke, get the weather, or get images. You can view a list of APIs here: https://github.com/public-apis/public-apisLinks to an external site.. You can make most services work, but the easiest ones to use don't require authentication, support CORS, and require HTTPS.
 
 * Database: A rendering of application data that is stored in the database. For Simon, this is the high scores of all players.
 
