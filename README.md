@@ -26,16 +26,27 @@ Most college students ignore their health until something goes seriously wrong. 
 
 ![Design image](Design_Sketch.png)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Here is a sequence diagram that shows how we collect data, analyze data and provide user with scores and recommendations.
 
 ```mermaid
 sequenceDiagram
-    actor You
-    actor Website
-    You->>Website: Replace this with your design
+    actor Student
+    participant App as Website (React)
+    participant Server as Backend Service
+    participant DB as Database
+    participant WS as WebSocket
+    Student->>App: Login
+    App->>Server: Authenticate user
+    Server->>DB: Verify credentials
+    Server-->>App: Login success
+    Student->>App: Submit daily health check-in
+    App->>Server: Send health data
+    Server->>DB: Store data
+    Server-->>App: Return health score
+    Server-->>WS: Broadcast score update
+    WS-->>App: Realtime notification
+    Student->>App: View dashboard
 ```
-
-### Key features
 
 ### Key Features
 
