@@ -1,31 +1,26 @@
-# Your startup name here
+# Student MindBody Score
 
 [My Notes](notes.md)
 
-A brief description of the application here. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+College life had been hard for me and many others on both mind and body. Students are constantly exposed to high pressure; lack enough exercises; experience loneliness and hopelessness. Those may cause us to suffer severe physical and mental issues while we can’t recognize them. Many factors such as inconsistency in sleeps, stress spikes, focus drops and social issues alone may not necessarily indicate health crisis; a combination of them can cause serious problems among students.
 
-> [!NOTE]
-> This is a template for your startup application. You must modify this `README.md` file for each phase of your development. You only need to fill in the section for each deliverable when that deliverable is submitted in Canvas. Without completing the section for a deliverable, the TA will not know what to look for when grading your submission. Feel free to add additional information to each deliverable description, but make sure you at least have the list of rubric items and a description of what you did for each item.
-
-> [!NOTE]
-> If you are not familiar with Markdown then you should review the [documentation](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) before continuing.
+I want to build a health scoring web app that tracks both physical and mental inputs through quick daily check-ins specifically for College students. This project will be built iteratively throughout this semester as we learn new technologies. Each time we add a new requirement (React routing, service endpoints, authentication, database persistence, WebSocket updates, and third-party APIs), I will expand the application to include that capability in a meaningful way.
 
 ## 🚀 Specification Deliverable
 
-> [!NOTE]
-> Fill in this sections as the submission artifact for this deliverable. You can refer to this [example](https://github.com/webprogramming260/startup-example/blob/main/README.md) for inspiration.
+A student-focused health tracking platform that turns daily physical and mental check-ins into a clear, easy-to-understand health score and progress dashboard.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] Proper use of Markdown
-- [ ] A concise and compelling elevator pitch
-- [ ] Description of key features
-- [ ] Description of how you will use each technology
-- [ ] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
+- [x] Proper use of Markdown
+- [x] A concise and compelling elevator pitch
+- [x] Description of key features
+- [x] Description of how you will use each technology
+- [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ### Elevator pitch
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Most college students ignore their health until something goes seriously wrong. Constant pressure, poor sleep, lack of exercise, stress, and social isolation often pile up, and it’s the combination that quietly causes real damage. This app makes both physical and mental health visible through simple daily check-ins and an easy-to-understand score. Instead of guessing, students can see trends, understand what affects them most, and make small changes before problems become severe.
 
 ### Design
 
@@ -42,20 +37,30 @@ sequenceDiagram
 
 ### Key features
 
-- Describe your key feature
-- Describe your key feature
-- Describe your key feature
+### Key Features
+
+- User authentication system (register, login, logout) to keep personal health data private
+- Daily health check-in form for physical and mental factors (sleep, exercise, stress, focus, mood, etc.)
+- Automatic health score calculation with separate Physical and Mental sub-scores
+- Personal dashboard showing current score, breakdown, and contributing factors
+- History and trend visualization to track changes over time
+- Realtime notifications when a new check-in is recorded or a score is updated (via WebSocket)
+- Daily health tip or motivation content powered by a third-party API
 
 ### Technologies
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Description here
-- **CSS** - Description here
-- **React** - Description here
-- **Service** - Description here
-- **DB/Login** - Description here
-- **WebSocket** - Description here
+- **HTML**  Use semantic HTML to structure the application (header, navigation, main content, footer). Forms will be used for login/registration and daily health check-ins with proper labels and accessible inputs.
+- **CSS**  Style the application to be responsive on both mobile and desktop devices. Use consistent spacing, typography, and color contrast for readability. CSS transitions and animations will provide visual feedback for form validation, score updates, and notifications.
+- **React**  Build the frontend as a single-page application with component-based architecture. Components will include login/register forms, daily check-in form, score display cards, dashboard, and history view. React routing will control which view is displayed based on user actions and authentication state.
+- **Service (Backend)**  Implement a Node.js/Express backend that provides multiple endpoints for:
+  - User authentication (register, login, logout)
+  - Submitting and retrieving health check-in data
+  - Retrieving calculated health scores and insights  
+  The service will also call at least one third-party API (such as a daily health tip or motivational quote API) and return processed results to the frontend.
+- **Database / Login**  Store user accounts securely in the database along with timestamped health check-in records. Health scores and historical data will be retrieved from the database and rendered in the user dashboard.
+- **WebSocket**  Establish a WebSocket connection after user login to deliver realtime updates, such as when a new check-in is recorded or when the health score is recalculated. These updates will be displayed in the UI as live notifications or activity indicators without refreshing the page.
 
 ## 🚀 AWS deliverable
 
