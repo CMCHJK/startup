@@ -83,15 +83,15 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] **HTML pages** - Created 4 HTML pages: `index.html`, `login.html`, `dashboard.html`, and `about.html` to represent the main components of the application.
+- [x] **Proper HTML element usage** - Used semantic structure including `header`, `nav`, `main`, `section`, and `footer` on each page.
+- [x] **Links** - Added navigation links between all pages (Home/Login/Dashboard/About) so the app can be explored end-to-end.
+- [x] **Text** - Added descriptive content explaining the app purpose, planned features, and what each page represents.
+- [x] **3rd party API placeholder** - Included a “Daily wellness tip” placeholder section (to be populated later via a third-party API).
+- [x] **Images** - Included an image placeholder (e.g., app preview image) on the home page.
+- [x] **Login placeholder** - Implemented login/register form placeholders and a “current user” display placeholder.
+- [x] **DB data placeholder** - Added a community/high-scores style table placeholder to represent data that will be stored and loaded from the database.
+- [x] **WebSocket placeholder** - Added a live updates/activity feed placeholder to represent real-time updates received from WebSocket.
 
 ## 🚀 CSS deliverable
 
