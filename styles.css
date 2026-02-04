@@ -76,29 +76,6 @@ label {
   font-weight: bold;
 }
 
-/* ---------- Tables ---------- */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-}
-
-th,
-td {
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  text-align: left;
-}
-
-th {
-  background-color: #f0f2f5;
-}
-
-tbody tr:nth-child(even) {
-  background-color: #fafafa;
-}
-
 /* ---------- Images ---------- */
 
 img {

@@ -30,38 +30,66 @@
   <main class="container my-4 p-4 bg-white rounded">
 
     <section>
-      <h2>Login</h2>
+      <h2 class="mb-3">Login</h2>
+
       <form>
-        <label>
-          Username:
-          <input type="text" placeholder="Enter username">
-        </label>
-        <br><br>
-        <label>
-          Password:
-          <input type="password" placeholder="Enter password">
-        </label>
-        <br><br>
-        <button type="button">Login</button>
+        <div class="mb-3">
+          <label for="login-username" class="form-label">Username</label>
+          <input
+            id="login-username"
+            type="text"
+            class="form-control"
+            placeholder="Enter username"
+          >
+        </div>
+
+        <div class="mb-3">
+          <label for="login-password" class="form-label">Password</label>
+          <input
+            id="login-password"
+            type="password"
+            class="form-control"
+            placeholder="Enter password"
+          >
+        </div>
+
+        <button type="button" class="btn btn-primary">
+          Login
+        </button>
       </form>
     </section>
 
-    <section>
-      <h2>Register</h2>
+
+    <section class="mt-5">
+      <h2 class="mb-3">Register</h2>
+
       <form>
-        <label>
-          Username:
-          <input type="text" placeholder="Choose a username">
-        </label>
-        <br><br>
-        <label>
-          Password:
-          <input type="password" placeholder="Choose a password">
-        </label>
-        <br><br>
-        <button type="button">Create Account</button>
+        <div class="mb-3">
+          <label for="register-username" class="form-label">Username</label>
+          <input
+            id="register-username"
+            type="text"
+            class="form-control"
+            placeholder="Choose a username"
+          >
+        </div>
+
+        <div class="mb-3">
+          <label for="register-password" class="form-label">Password</label>
+          <input
+            id="register-password"
+            type="password"
+            class="form-control"
+            placeholder="Choose a password"
+          >
+        </div>
+
+        <button type="button" class="btn btn-success">
+          Create Account
+        </button>
       </form>
     </section>
+
 
     <section>
       <h3>Status</h3>
