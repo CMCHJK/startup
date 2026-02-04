@@ -133,3 +133,11 @@ th {
 tbody tr:nth-child(even) {
   background-color: #fafafa;
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+  border-radius: 6px;
+}
