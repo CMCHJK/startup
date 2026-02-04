@@ -9,6 +9,13 @@ Simon domain name: https://simon.doxys.click
 * HTML - Basic structural and organizational elements
 
 * CSS - Styling and animating
+1. Learned how to structure a multi-page web application using semantic HTML
+2. Practiced creating consistent navigation and layout across pages
+3. Integrated Bootstrap as a CSS framework and applied it meaningfully to forms, buttons, tables, and layout
+4. Used Flexbox and responsive design techniques to adapt layout to different screen sizes
+5. Improved understanding of how custom CSS and a framework can coexist without conflict
+6. Gained experience deploying static frontend files to a production server using an automated deployment script
+7. Reinforced Git workflow habits by committing incremental changes frequently
 
 * React - Frontend code to interact with a user, represent functionality with components, and route what is displayed using JavaScript and the React web framework. React helps you to modularize your code into components that represent things like a login form, a picture card, or a interactive part of a game. The routing that React provides changes what is displayed to the user based upon the actions they take. For example, after logging in, React would change the display from the login component, to the game play component.
 

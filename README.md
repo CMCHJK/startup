@@ -97,12 +97,12 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [x] **Visually appealing colors and layout. No overflowing elements.** -Applied a consistent color scheme, spacing, and layout across all pages. Verified that content does not overflow on different screen sizes.
-- [x] **Use of a CSS framework** - I did not complete this part of the deliverable.
-- [x] **All visual elements styled using CSS** - I did not complete this part of the deliverable.
-- [x] **Responsive to window resizing using flexbox and/or grid display** - I did not complete this part of the deliverable.
-- [x] **Use of a imported font** - I did not complete this part of the deliverable.
-- [x] **Use of different types of selectors including element, class, ID, and pseudo selectors** - I did not complete this part of the deliverable.
+- [x] **Visually appealing colors and layout. No overflowing elements.** - Applied a consistent color scheme, spacing, and layout across all pages. Verified that content remains readable and does not overflow on different screen sizes.
+- [x] **Use of a CSS framework** - Integrated the Bootstrap CSS framework via CDN and used it meaningfully for layout containers, navigation buttons, form controls, and tables.
+- [x] **All visual elements styled using CSS** - All visible elements including navigation, forms, tables, images, and page layout are styled using a combination of custom CSS and Bootstrap utility classes.
+- [x] **Responsive to window resizing using flexbox and/or grid display** - Used Flexbox utilities from Bootstrap and custom CSS grid/flex rules to ensure the layout adapts properly to different screen widths, especially on the dashboard page.
+- [x] **Use of a imported font** - Imported a custom font using Google Fonts and applied it globally through CSS.
+- [x] **Use of different types of selectors including element, class, ID, and pseudo selectors** - Used element selectors (e.g. body, main), class selectors for layout and components, ID selectors for form elements, and pseudo selectors such as hover and focus.
 
 ## 🚀 React part 1: Routing deliverable
 
