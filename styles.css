@@ -160,3 +160,24 @@ img {
     font-size: 0.9rem;
   }
 }
+
+body > main section {
+  padding-bottom: 0.5rem;
+}
+
+body main section ul {
+  margin-left: 1.25rem;
+}
+
+/* Only apply grid to dashboard page */
+@media (min-width: 800px) {
+  body.dashboard main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  body.dashboard main section {
+    margin-bottom: 0;
+  }
+}
