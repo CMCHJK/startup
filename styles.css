@@ -47,6 +47,15 @@ main {
   border-radius: 6px;
 }
 
+section{
+  margin-bottom: 2rem;
+}
+
+section h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+}
+
 footer {
   background-color: #1f2933;
   color: white;
@@ -54,4 +63,13 @@ footer {
   text-align: center;
   font-size: 0.9rem;
   margin-top: 2rem;
+}
+
+footer a {
+  color: #9ddcff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
 }
