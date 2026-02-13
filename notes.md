@@ -28,6 +28,17 @@ Simon domain name: https://simon.doxys.click
 
 * WebSocket: A rendering of data that is received from your server. This may be realtime data sent from other users (e.g. chat or scoring data), or realtime data that your service is generating (e.g. stock prices or latest high scores). For Simon, this represents every time another user creates or ends a game.
 
+### React Migration Notes
+
+- Learned how Vite bundles and serves React applications for development and production.
+- Converted multi-page HTML structure into a single-page application (SPA).
+- Replaced HTML attributes such as `class` with `className` and `for` with `htmlFor`.
+- Converted HTML comments to JSX comments using `{/* ... */}`.
+- Implemented routing with React Router using `BrowserRouter`, `NavLink`, `Routes`, and `Route`.
+- Moved static assets into the `public` directory and referenced them using absolute paths.
+- Used a deployment script (`deployReact.sh`) to build and deploy the bundled application to the production server.
+
+
 
 # CS 260 Example Notes
 

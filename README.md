@@ -108,9 +108,9 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Bundled using Vite** - I did not complete this part of the deliverable.
-- [ ] **Components** - I did not complete this part of the deliverable.
-- [ ] **Router** - I did not complete this part of the deliverable.
+- [x] **Bundled using Vite** - The application was initialized with Vite and configured using `npm init` and `npm install vite`. The project uses Vite for development (`npm run dev`) and production builds (`npm run build`). The bundled output is deployed to the production server using the `deployReact.sh` script.
+- [x] **Components** - The application was refactored into multiple React components. The HTML pages were converted into all functional components. The header and footer were centralized in `app.jsx`, and each view renders its own `<main>` content.
+- [x] **Router** -   React Router was implemented using `BrowserRouter`, `NavLink`, `Routes`, and `Route`. The application supports all the routs. Navigation between pages is handled without full page reloads.
 
 ## 🚀 React part 2: Reactivity deliverable
 
