@@ -106,13 +106,13 @@ img {
 }
 
 @media (min-width: 800px) {
-  body.dashboard main {
+  .body.dashboard main {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
   }
 
-  body.dashboard section {
+  .body.dashboard section {
     margin-bottom: 0;
   }
 }
