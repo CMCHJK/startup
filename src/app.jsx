@@ -14,6 +14,11 @@ export default function App() {
       <div className="body">
         <header>
           <h1>Health Score</h1>
+
+          <div>
+            Current User: {localStorage.getItem('userName') || 'Not logged in'}
+          </div>
+
           <nav>
             <NavLink to="">Home</NavLink>
             <NavLink to="login">Login</NavLink>
