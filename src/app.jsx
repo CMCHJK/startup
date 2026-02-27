@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 
@@ -9,6 +9,22 @@ import { Dashboard } from './dashboard/dashboard';
 import { About } from './about/about';
 
 export default function App() {
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('userName');
+    if (storedUser) {
+      setUserName(storedUser);
+    }
+
+    const interval = setInterval(() => {
+      const current = localStorage.getItem('userName') || '';
+      setUserName(current);
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <BrowserRouter>
       <div className="body">
@@ -16,7 +32,7 @@ export default function App() {
           <h1>Health Score</h1>
 
           <div>
-            Current User: {localStorage.getItem('userName') || 'Not logged in'}
+            Current User: {userName || 'Not logged in'}
           </div>
 
           <nav>
