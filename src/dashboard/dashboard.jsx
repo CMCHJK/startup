@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export function Dashboard() {
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('userName');
+    if (storedUser) {
+      setUserName(storedUser);
+    }
+  }, []);
+
   return (
     <main className="container my-4 p-4 bg-white rounded">
       {/* Logged-in User Info */}
       <section>
         <h2>User</h2>
         <p>
-          Username: <strong>demo_user</strong>
+          Username: <strong>{userName || 'Not logged in'}</strong>
         </p>
       </section>
 
