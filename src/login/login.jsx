@@ -21,6 +21,11 @@ export function Login() {
     setCurrentUser('');
   }
 
+  function handleRegister() {
+    localStorage.setItem('userName', username);
+    setCurrentUser(username);
+  }
+
   return (
     <main className="container my-4 p-4 bg-white rounded">
       <section>
@@ -44,6 +49,14 @@ export function Login() {
             onClick={handleLogin}
           >
             Login
+          </button>
+
+          <button
+            type="button"
+            className="btn btn-success ms-2"
+            onClick={handleRegister}
+          >
+            Create Account
           </button>
 
           <button
