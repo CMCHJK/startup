@@ -4,6 +4,7 @@ export function Dashboard() {
   const [userName, setUserName] = useState('');
   const [updates, setUpdates] = useState([]);
   const [communityData, setCommunityData] = useState([]);
+  const [tip, setTip] = useState('');
 
   useEffect(() => {
     const storedUser = localStorage.getItem('userName');
@@ -38,6 +39,14 @@ export function Dashboard() {
     ];
 
     setCommunityData(mockDatabase);
+  }, []);
+
+  useEffect(() => {
+  function getDailyTip() {
+    return "Drink water and take 5 deep breaths before studying.";
+  }
+
+  setTip(getDailyTip());
   }, []);
 
   return (
@@ -104,7 +113,7 @@ export function Dashboard() {
       {/* Third-party API Placeholder */}
       <section>
         <h2>Daily Mental Health Tip (3rd-party API)</h2>
-        <p>&quot;Drink water and take 5 deep breaths before studying.&quot;</p>
+        <p>&quot;{tip}&quot;</p>
       </section>
     </main>
   );
