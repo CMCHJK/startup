@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 export function Dashboard() {
   const [userName, setUserName] = useState('');
   const [updates, setUpdates] = useState([]);
+  const [communityData, setCommunityData] = useState([]);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('userName');
@@ -12,22 +13,32 @@ export function Dashboard() {
   }, []);
 
   useEffect(() => {
-  const interval = setInterval(() => {
-    const randomUser = "student" + Math.floor(Math.random() * 100);
-    const messages = [
-      `${randomUser} submitted a check-in`,
-      `${randomUser} score updated`,
-      `${randomUser} logged in`,
-      `${randomUser} logged out`
+    const interval = setInterval(() => {
+      const randomUser = "student" + Math.floor(Math.random() * 100);
+      const messages = [
+        `${randomUser} submitted a check-in`,
+        `${randomUser} score updated`,
+        `${randomUser} logged in`,
+        `${randomUser} logged out`
+      ];
+
+      const msg = messages[Math.floor(Math.random() * messages.length)];
+
+      setUpdates((prev) => [msg, ...prev.slice(0, 4)]);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const mockDatabase = [
+      { user: "student01", score: 81 },
+      { user: "student02", score: 65 },
+      { user: "student03", score: 74 }
     ];
 
-    const msg = messages[Math.floor(Math.random() * messages.length)];
-
-    setUpdates((prev) => [msg, ...prev.slice(0, 4)]);
-  }, 3000);
-
-  return () => clearInterval(interval);
-}, []);
+    setCommunityData(mockDatabase);
+  }, []);
 
   return (
     <main className="container my-4 p-4 bg-white rounded">
@@ -70,18 +81,12 @@ export function Dashboard() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>student01</td>
-              <td>81</td>
-            </tr>
-            <tr>
-              <td>student02</td>
-              <td>65</td>
-            </tr>
-            <tr>
-              <td>student03</td>
-              <td>74</td>
-            </tr>
+            {communityData.map((entry, index) => (
+              <tr key={index}>
+                <td>{entry.user}</td>
+                <td>{entry.score}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </section>
