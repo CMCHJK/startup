@@ -1,10 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export function Home() {
+  const [userName, setUserName] = useState('');
+  const [liveUpdates, setLiveUpdates] = useState([]);
+  const [tip, setTip] = useState('');
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('userName');
+    if (storedUser) {
+      setUserName(storedUser);
+    }
+  }, []);
+
+  useEffect(() => {
+    function getDailyTip() {
+      return 'Take a 10-minute walk today to improve focus and mood.';
+    }
+    setTip(getDailyTip());
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const randomUser = `User${Math.floor(Math.random() * 1000)}`;
+      const messages = [
+        `${randomUser} submitted a check-in`,
+        `${randomUser} score updated`,
+        `${randomUser} opened the dashboard`
+      ];
+      const msg = messages[Math.floor(Math.random() * messages.length)];
+      setLiveUpdates((prev) => [msg, ...prev.slice(0, 3)]);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <main className="container my-4 p-4 bg-white rounded">
-      {/* Application Description */}
       <section>
         <h2>What is this?</h2>
         <p>
@@ -13,17 +45,23 @@ export function Home() {
         </p>
       </section>
 
-      {/* Authentication Placeholder */}
       <section>
         <h2>Authentication</h2>
-        <p>Login to access your personal health dashboard.</p>
         <p>
-          Current user: <strong>[Not logged in]</strong>
+          Current user: <strong>{userName || '[Not logged in]'}</strong>
         </p>
-        <Link to="/login">Go to Login</Link>
+
+        {userName ? (
+          <p>
+            Go to your <Link to="/dashboard">Dashboard</Link>.
+          </p>
+        ) : (
+          <p>
+            <Link to="/login">Go to Login</Link> to access your personal dashboard.
+          </p>
+        )}
       </section>
 
-      {/* Application Data Placeholder */}
       <section>
         <h2>Your Health Score (Sample)</h2>
         <p>
@@ -32,7 +70,6 @@ export function Home() {
         <p>Status: Moderate stress, low sleep consistency</p>
       </section>
 
-      {/* Database Data Placeholder */}
       <section>
         <h2>Community Statistics (Database Data)</h2>
         <ul>
@@ -42,23 +79,21 @@ export function Home() {
         </ul>
       </section>
 
-      {/* WebSocket Placeholder */}
       <section>
         <h2>Live Updates (WebSocket)</h2>
         <p>Other students checking in right now:</p>
         <ul>
-          <li>User123 submitted a check-in</li>
-          <li>User456 score updated</li>
+          {liveUpdates.map((u, i) => (
+            <li key={i}>{u}</li>
+          ))}
         </ul>
       </section>
 
-      {/* Third-party API Placeholder */}
       <section>
         <h2>Daily Wellness Tip (3rd-party API)</h2>
-        <p>&quot;Take a 10-minute walk today to improve focus and mood.&quot;</p>
+        <p>&quot;{tip}&quot;</p>
       </section>
 
-      {/* Images Placeholder */}
       <section>
         <h2>App Preview</h2>
         <img src="/temp_pic.png" alt="App preview image" width="300" />
