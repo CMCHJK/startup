@@ -116,9 +116,36 @@ Setting up Vite and React was pretty simple. I had a bit of trouble because of c
 
 ## React Part 2: Reactivity
 
-This was a lot of fun to see it all come together. I had to keep remembering to use React state instead of just manipulating the DOM directly.
+Key things I implemented and learned:
 
-Handling the toggling of the checkboxes was particularly interesting.
+- Used useState to manage dynamic UI state such as:
+  - Current logged-in user
+  - Community data (mock database)
+  - Live updates feed
+  - Daily wellness tip
+  - User login and registration inputs
+
+- Used useEffect to handle component lifecycle events such as:
+  - Loading user data from localStorage when the component mounts
+  - Simulating database responses using hard-coded data
+  - Simulating WebSocket updates using setInterval
+  - Mocking third-party API responses for daily wellness tips
+
+- Implemented localStorage to mock backend authentication and persistence:
+  - Login and register store the username in localStorage
+  - Dashboard and Home automatically load and display the current user
+  - Header updates reactively when login state changes
+
+- Simulated WebSocket behavior using setInterval:
+  - Live activity feed updates automatically every few seconds
+  - Demonstrates how real-time updates would work with a real WebSocket server
+
+- Converted static placeholder content into reactive React components:
+  - Home page dynamically shows login status and navigation options
+  - Dashboard dynamically loads and displays user and community data
+  - About page displays lifecycle information using useEffect
+
+- Reinforced the importance of using React state instead of directly reading from the DOM or localStorage, ensuring proper reactive rendering.
 
 ```jsx
 <div className="input-group sound-button-container">

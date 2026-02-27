@@ -116,8 +116,20 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
-- [ ] **Hooks** - I did not complete this part of the deliverable.
+- [x] **All functionality implemented or mocked out**  
+  The application is now fully interactive using React state and lifecycle logic.  
+  - Login and register functionality stores the current user using localStorage.  
+  - The Home page dynamically shows login status and navigation options.  
+  - The Dashboard loads user data from localStorage and renders it dynamically.  
+  - Community data is mocked using hard-coded database-like responses loaded via useEffect.  
+  - Live updates are simulated using setInterval to mimic WebSocket behavior.  
+  - The daily wellness tip is mocked as a hard-coded third-party API response.  
+  - All major application sections (Home, Login, Dashboard, About) are functional and reactive.
+- [x] **Hooks**  
+  The application makes extensive use of React Hooks:  
+  - useState is used to manage login state, community data, live updates, and tips.  
+  - useEffect is used to load user data, simulate database responses, simulate WebSocket updates, and mock third-party API calls.  
+  - The header and multiple pages update automatically when the user state changes, demonstrating proper reactive rendering.
 
 ## 🚀 Service deliverable
 
