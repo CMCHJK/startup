@@ -24,7 +24,7 @@ export function Dashboard() {
     const msg = messages[Math.floor(Math.random() * messages.length)];
 
     setUpdates((prev) => [msg, ...prev.slice(0, 4)]);
-  }, 5000);
+  }, 3000);
 
   return () => clearInterval(interval);
 }, []);
