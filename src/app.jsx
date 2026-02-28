@@ -5,6 +5,7 @@ import './app.css';
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { Home } from './home/home';
 import { Login } from './login/login';
+import { Checkin } from './checkin/checkin';
 import { Dashboard } from './dashboard/dashboard';
 import { About } from './about/about';
 
@@ -38,6 +39,7 @@ export default function App() {
           <nav>
             <NavLink to="">Home</NavLink>
             <NavLink to="login">Login</NavLink>
+            <NavLink to="checkin">Check-in</NavLink>
             <NavLink to="dashboard">Dashboard</NavLink>
             <NavLink to="about">About</NavLink>
           </nav>
@@ -46,6 +48,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/checkin" element={<Checkin />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
