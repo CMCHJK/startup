@@ -5,6 +5,7 @@ export function Home() {
   const [userName, setUserName] = useState('');
   const [liveUpdates, setLiveUpdates] = useState([]);
   const [tip, setTip] = useState('');
+  const [healthScore, setHealthScore] = useState(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('userName');
@@ -12,6 +13,42 @@ export function Home() {
       setUserName(storedUser);
     }
   }, []);
+
+  useEffect(() => {
+  function loadCheckins() {
+    const text = localStorage.getItem('checkins');
+    if (!text) return [];
+    try {
+      const parsed = JSON.parse(text);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function clamp(n, min, max) {
+    return Math.max(min, Math.min(max, n));
+  }
+
+  function computeScore(entry) {
+    if (!entry) return null;
+
+    const sleep = Number(entry.sleepHours);
+    const exercise = Number(entry.exerciseMinutes);
+    const stress = Number(entry.stress);
+    const mood = Number(entry.mood);
+
+    const sleepScore = clamp((sleep / 8) * 40, 0, 40);
+    const exerciseScore = clamp((exercise / 30) * 30, 0, 30);
+    const stressScore = clamp((6 - stress) * 5, 0, 25);
+    const moodScore = clamp(mood * 1, 0, 5);
+
+    return Math.round(clamp(sleepScore + exerciseScore + stressScore + moodScore, 0, 100));
+  }
+
+  const data = loadCheckins();
+  setHealthScore(computeScore(data[0]));
+}, []);
 
   useEffect(() => {
     function getDailyTip() {
@@ -53,7 +90,7 @@ export function Home() {
 
         {userName ? (
           <p>
-            Go to your <Link to="/dashboard">Dashboard</Link>.
+            Go to your <Link to="/dashboard">Dashboard</Link> or submit a <Link to="/checkin">Check-in</Link>.
           </p>
         ) : (
           <p>
@@ -63,11 +100,25 @@ export function Home() {
       </section>
 
       <section>
-        <h2>Your Health Score (Sample)</h2>
-        <p>
-          Score: <strong>72 / 100</strong>
-        </p>
-        <p>Status: Moderate stress, low sleep consistency</p>
+        <h2>Your Health Score</h2>
+
+        {healthScore === null ? (
+          <p>No score yet. Submit your first <Link to="/checkin">check-in</Link>.</p>
+        ) : (
+          <>
+            <p>
+              Score: <strong>{healthScore} / 100</strong>
+            </p>
+            <p>
+              Status:{' '}
+              {healthScore >= 80
+                ? 'Doing well — keep consistency.'
+                : healthScore >= 60
+                ? 'Moderate — improve sleep/exercise consistency.'
+                : 'High risk — prioritize rest and stress reduction.'}
+            </p>
+          </>
+        )}
       </section>
 
       <section>
