@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export function Login() {
+export function Login({ onLoginChange }) {
   const [username, setUsername] = useState('');
   const [currentUser, setCurrentUser] = useState('');
 
@@ -14,16 +14,19 @@ export function Login() {
   function handleLogin() {
     localStorage.setItem('userName', username);
     setCurrentUser(username);
-  }
-
-  function handleLogout() {
-    localStorage.removeItem('userName');
-    setCurrentUser('');
+    onLoginChange(username);
   }
 
   function handleRegister() {
     localStorage.setItem('userName', username);
     setCurrentUser(username);
+    onLoginChange(username);
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('userName');
+    setCurrentUser('');
+    onLoginChange('');
   }
 
   return (
