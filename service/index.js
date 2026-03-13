@@ -12,6 +12,18 @@ app.use(cookieParser());
 const users = [];
 const sessions = {};
 
+function authMiddleware(req, res, next) {
+  const token = req.cookies.token;
+  const email = sessions[token];
+
+  if (!email) {
+    return res.status(401).send({ msg: 'unauthorized' });
+  }
+
+  req.userEmail = email;
+  next();
+}
+
 app.get('/api/test', (req, res) => {
   res.send({ msg: 'startup service works' });
 });
@@ -74,6 +86,10 @@ app.delete('/api/auth/logout', (req, res) => {
   res.clearCookie('token');
 
   res.send({});
+});
+
+app.get('/api/protected', authMiddleware, (req, res) => {
+  res.send({ msg: `hello ${req.userEmail}` });
 });
 
 app.listen(port, () => {
