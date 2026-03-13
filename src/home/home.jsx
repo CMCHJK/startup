@@ -51,10 +51,14 @@ export function Home() {
 }, []);
 
   useEffect(() => {
-    function getDailyTip() {
-      return 'Take a 10-minute walk today to improve focus and mood.';
-    }
-    setTip(getDailyTip());
+    fetch('/api/quote')
+      .then((response) => response.json())
+      .then((data) => {
+        setTip(`${data.content} — ${data.author}`);
+      })
+      .catch(() => {
+        setTip('Unable to load tip.');
+      });
   }, []);
 
   useEffect(() => {
