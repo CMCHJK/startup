@@ -88,6 +88,12 @@ export function Dashboard() {
     setHealthScore(computeScore(data[0]));
   }, []);
 
+  function clearHistory() {
+    localStorage.removeItem('checkins');
+    setCheckins([]);
+    setHealthScore(null);
+  }
+
   return (
     <main className="container my-4 p-4 bg-white rounded">
       {/* Logged-in User Info */}
@@ -131,6 +137,12 @@ export function Dashboard() {
       {/* Health Score Output */}
       <section>
         <h2>Your Health Score</h2>
+
+        <div className="mb-3">
+          <button type="button" className="btn btn-outline-danger" onClick={clearHistory} disabled={checkins.length === 0}>
+            Clear check-in history
+          </button>
+        </div>
 
         {healthScore === null ? (
           <p>No score yet (submit a check-in first).</p>

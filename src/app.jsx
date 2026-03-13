@@ -39,8 +39,8 @@ export default function App() {
           <nav>
             <NavLink to="">Home</NavLink>
             <NavLink to="login">Login</NavLink>
-            <NavLink to="checkin">Check-in</NavLink>
-            <NavLink to="dashboard">Dashboard</NavLink>
+            {userName && <NavLink to="checkin">Check-in</NavLink>}
+            {userName && <NavLink to="dashboard">Dashboard</NavLink>}
             <NavLink to="about">About</NavLink>
           </nav>
         </header>
@@ -48,8 +48,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/checkin" element={<Checkin />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/checkin" element={userName ? <Checkin /> : <Login />} />
+          <Route path="/dashboard" element={userName ? <Dashboard /> : <Login />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
