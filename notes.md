@@ -166,3 +166,27 @@ Key things I implemented and learned:
   ))}
 </div>
 ```
+### Service Deliverable Notes
+
+For this deliverable I implemented a backend service using **Node.js and Express**.
+
+Key things I learned and implemented:
+
+- Created a backend application inside the `service` directory with its own `package.json`.
+- Installed backend dependencies including:
+  - `express`
+  - `cookie-parser`
+  - `bcryptjs`
+  - `uuid`
+- Implemented authentication endpoints:
+  - `POST /api/auth/create`
+  - `POST /api/auth/login`
+  - `DELETE /api/auth/logout`
+- Implemented a restricted endpoint that requires authentication.
+- Used **bcryptjs** to hash user passwords before storing them.
+- Implemented a backend endpoint `/api/quote` that calls the **Quotable API** to retrieve a wellness quote.
+- The React frontend calls backend endpoints using `fetch()` through the `/api` proxy configured in `vite.config.js`.
+- Used Express static middleware to serve the built React frontend when deployed to AWS.
+- Deployed the service using the `deployService.sh` script and managed the running process using **PM2**.
+
+This deliverable helped me understand how frontend React applications communicate with backend services through REST APIs.

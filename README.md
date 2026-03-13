@@ -135,12 +135,13 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Supports registration, login, logout, and restricted endpoint** - I did not complete this part of the deliverable.
+- [x] **Node.js/Express HTTP service** - Created a backend service using Node.js and Express inside the `service` directory. The server runs on port 4000 and provides REST API endpoints used by the React frontend.
+- [x] **Static middleware for frontend** - Configured Express static middleware to serve the built React frontend from the `public` directory when deployed to the production server.
+- [x] **Calls to third party endpoints** - Implemented a backend endpoint (`/api/quote`) that fetches a wellness quote from the public Quotable API and returns it to the frontend.
+- [x] **Backend service endpoints** - Implemented multiple backend API routes including authentication routes and application endpoints such as `/api/quote`.
+- [x] **Frontend calls service endpoints** - The React frontend uses `fetch()` to call backend endpoints such as `/api/quote`, `/api/auth/login`, `/api/auth/create`, and `/api/auth/logout`.
+- [x] **Supports registration, login, logout, and restricted endpoint** - Implemented user authentication with account creation, login, logout, and restricted routes protected by authentication cookies.
+- [x] **Uses BCrypt to hash passwords** - User passwords are hashed using `bcryptjs` before being stored in the backend user store.
 
 ## 🚀 DB deliverable
 
