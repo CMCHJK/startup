@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
+const uuid = require('uuid');
 
 const app = express();
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
@@ -32,6 +33,32 @@ app.post('/api/auth/create', async (req, res) => {
   users.push({
     email: email,
     password: hash,
+  });
+
+  res.send({ email: email });
+});
+
+app.post('/api/auth/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = users.find((u) => u.email === email);
+
+  if (!user) {
+    return res.status(401).send({ msg: 'invalid email or password' });
+  }
+
+  const valid = await bcrypt.compare(password, user.password);
+
+  if (!valid) {
+    return res.status(401).send({ msg: 'invalid email or password' });
+  }
+
+  const token = uuid.v4();
+  sessions[token] = email;
+
+  res.cookie('token', token, {
+    httpOnly: true,
+    sameSite: 'strict'
   });
 
   res.send({ email: email });
