@@ -64,6 +64,18 @@ app.post('/api/auth/login', async (req, res) => {
   res.send({ email: email });
 });
 
+app.delete('/api/auth/logout', (req, res) => {
+  const token = req.cookies.token;
+
+  if (token) {
+    delete sessions[token];
+  }
+
+  res.clearCookie('token');
+
+  res.send({});
+});
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
