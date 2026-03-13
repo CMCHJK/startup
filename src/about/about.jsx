@@ -2,10 +2,22 @@ import React, { useEffect, useState } from 'react';
 
 export function About() {
   const [lastLoaded, setLastLoaded] = useState('');
+  const [tip, setTip] = useState('');
 
   useEffect(() => {
     const now = new Date();
     setLastLoaded(now.toLocaleString());
+  }, []);
+
+  useEffect(() => {
+    fetch('/api/quote')
+      .then((response) => response.json())
+      .then((data) => {
+        setTip(`${data.content} — ${data.author}`);
+      })
+      .catch(() => {
+        setTip('Unable to load wellness tip.');
+      });
   }, []);
 
   return (
@@ -15,24 +27,27 @@ export function About() {
         <p>
           This web application helps college students track both physical and mental
           health through quick daily check-ins. The system produces a simple score
-          and highlights trends that may indicate risk.
+          and highlights trends that may indicate potential health risks.
         </p>
       </section>
 
       <section>
-        <h2>React P2 Reactivity (What works now)</h2>
+        <h2>Current Features</h2>
         <ul>
           <li>
-            <strong>LocalStorage mock</strong>: user login state stored as <code>userName</code>
+            <strong>Authentication Service</strong>: users can register, login, and logout through backend API endpoints
           </li>
           <li>
-            <strong>WebSocket mock</strong>: live updates simulated with <code>setInterval</code>
+            <strong>Protected Endpoints</strong>: certain API routes require authentication
           </li>
           <li>
-            <strong>3rd-party API mock</strong>: daily wellness tip is a hard-coded response
+            <strong>LocalStorage</strong>: check-in history stored locally in the browser
           </li>
           <li>
-            <strong>Hooks</strong>: components use <code>useState</code> and <code>useEffect</code>
+            <strong>React Hooks</strong>: application state managed using <code>useState</code> and <code>useEffect</code>
+          </li>
+          <li>
+            <strong>Third-party API</strong>: wellness tip retrieved through the backend service
           </li>
         </ul>
         <p>
@@ -41,23 +56,18 @@ export function About() {
       </section>
 
       <section>
-        <h2>Planned Features</h2>
-        <ul>
-          <li>Daily check-ins (sleep, exercise, stress, focus, mood)</li>
-          <li>Personal score + trend breakdown</li>
-          <li>Community stats and comparisons</li>
-          <li>Live activity feed (real-time updates)</li>
-        </ul>
+        <h2>Example Wellness Tip (3rd-party API)</h2>
+        <p>&quot;{tip}&quot;</p>
       </section>
 
       <section>
-        <h2>Technology Plan (Placeholders)</h2>
+        <h2>Technology Stack</h2>
         <ul>
-          <li><strong>React</strong>: routing + components for home/login/dashboard/about</li>
-          <li><strong>Service</strong>: endpoints for login/register/check-ins/scoring (future deliverable)</li>
-          <li><strong>Database</strong>: users + check-ins + scores (future deliverable)</li>
-          <li><strong>WebSocket</strong>: real-time updates (future deliverable)</li>
-          <li><strong>3rd-party API</strong>: wellness tips (future deliverable)</li>
+          <li><strong>React</strong>: frontend components and routing</li>
+          <li><strong>Node.js + Express</strong>: backend web service</li>
+          <li><strong>BCrypt</strong>: password hashing for authentication</li>
+          <li><strong>REST API</strong>: communication between frontend and backend</li>
+          <li><strong>Third-party API</strong>: external wellness tip service</li>
         </ul>
       </section>
 
