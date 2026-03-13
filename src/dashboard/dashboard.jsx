@@ -44,11 +44,14 @@ export function Dashboard() {
   }, []);
 
   useEffect(() => {
-  function getDailyTip() {
-    return "Drink water and take 5 deep breaths before studying.";
-  }
-
-  setTip(getDailyTip());
+    fetch('/api/quote')
+      .then((response) => response.json())
+      .then((data) => {
+        setTip(`${data.content} — ${data.author}`);
+      })
+      .catch(() => {
+        setTip('Unable to load tip.');
+      });
   }, []);
 
   useEffect(() => {
