@@ -92,6 +92,20 @@ app.get('/api/protected', authMiddleware, (req, res) => {
   res.send({ msg: `hello ${req.userEmail}` });
 });
 
+app.get('/api/quote', async (req, res) => {
+  try {
+    const response = await fetch('https://zenquotes.io/api/random');
+    const data = await response.json();
+
+    res.send({
+      content: data[0].q,
+      author: data[0].a
+    });
+  } catch {
+    res.status(500).send({ msg: 'failed to fetch quote' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
