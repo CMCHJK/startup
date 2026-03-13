@@ -11,19 +11,53 @@ export function Login({ onLoginChange }) {
     }
   }, []);
 
-  function handleLogin() {
-    localStorage.setItem('userName', username);
-    setCurrentUser(username);
-    onLoginChange(username);
+  async function handleLogin() {
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: username,
+        password: 'password'
+      })
+    });
+
+    if (response.ok) {
+      localStorage.setItem('userName', username);
+      setCurrentUser(username);
+      onLoginChange(username);
+    } else {
+      alert('Login failed');
+    }
   }
 
-  function handleRegister() {
-    localStorage.setItem('userName', username);
-    setCurrentUser(username);
-    onLoginChange(username);
+  async function handleRegister() {
+    const response = await fetch('/api/auth/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: username,
+        password: 'password'
+      })
+    });
+
+    if (response.ok) {
+      localStorage.setItem('userName', username);
+      setCurrentUser(username);
+      onLoginChange(username);
+    } else {
+      alert('Unable to create account');
+    }
   }
 
-  function handleLogout() {
+  async function handleLogout() {
+    await fetch('/api/auth/logout', {
+      method: 'DELETE'
+    });
+
     localStorage.removeItem('userName');
     setCurrentUser('');
     onLoginChange('');
