@@ -12,23 +12,24 @@ import { About } from './about/about';
 export default function App() {
   const [userName, setUserName] = useState('');
 
-  useEffect(() => {
-    async function checkAuth() {
-      try {
-        const response = await fetch('/api/auth/me');
-        if (!response.ok) {
-          setUserName('');
-          return;
-        }
+  async function refreshAuth() {
+    try {
+      const response = await fetch('/api/auth/me');
 
-        const data = await response.json();
-        setUserName(data.email || '');
-      } catch {
+      if (!response.ok) {
         setUserName('');
+        return;
       }
-    }
 
-    checkAuth();
+      const data = await response.json();
+      setUserName(data.email || '');
+    } catch {
+      setUserName('');
+    }
+  }
+
+  useEffect(() => {
+    refreshAuth();
   }, []);
 
   return (
@@ -52,9 +53,9 @@ export default function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login onLoginChange={setUserName} />} />
-          <Route path="/checkin" element={userName ? <Checkin /> : <Login onLoginChange={setUserName} />} />
-          <Route path="/dashboard" element={userName ? <Dashboard /> : <Login onLoginChange={setUserName} />} />
+          <Route path="/login" element={<Login onLoginChange={refreshAuth} />} />
+          <Route path="/checkin" element={userName ? <Checkin /> : <Login onLoginChange={refreshAuth} />} />
+          <Route path="/dashboard" element={userName ? <Dashboard /> : <Login onLoginChange={refreshAuth} />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
