@@ -19,7 +19,7 @@ export function Checkin() {
         }
 
         const data = await response.json();
-        setUserName(data.email);
+        setUserName(data.email || '');
       } catch {
         setUserName('');
       }
@@ -28,9 +28,28 @@ export function Checkin() {
     loadCurrentUser();
   }, []);
 
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
   async function saveCheckin() {
     if (!userName) {
       setSavedMsg('Please login first.');
+      return;
+    }
+
+    const sleep = clamp(Number(sleepHours), 0, 24);
+    const exercise = clamp(Number(exerciseMinutes), 0, 600);
+    const stressValue = clamp(Number(stress), 1, 5);
+    const moodValue = clamp(Number(mood), 1, 5);
+
+    if (
+      Number.isNaN(sleep) ||
+      Number.isNaN(exercise) ||
+      Number.isNaN(stressValue) ||
+      Number.isNaN(moodValue)
+    ) {
+      setSavedMsg('Please enter valid numbers.');
       return;
     }
 
@@ -40,10 +59,10 @@ export function Checkin() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        sleepHours: Number(sleepHours),
-        exerciseMinutes: Number(exerciseMinutes),
-        stress: Number(stress),
-        mood: Number(mood),
+        sleepHours: sleep,
+        exerciseMinutes: exercise,
+        stress: stressValue,
+        mood: moodValue,
         date: new Date().toLocaleString()
       })
     });
@@ -113,7 +132,12 @@ export function Checkin() {
         />
       </div>
 
-      <button type="button" className="btn btn-primary" onClick={saveCheckin}>
+      <button
+        type="button"
+        className="btn btn-primary"
+        onClick={saveCheckin}
+        disabled={!userName}
+      >
         Save Check-in
       </button>
 
