@@ -1,25 +1,34 @@
 import React, { useState, useEffect } from 'react';
 
 export function Login({ onLoginChange }) {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [currentUser, setCurrentUser] = useState('');
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     async function loadCurrentUser() {
       try {
         const response = await fetch('/api/auth/me');
+
         if (!response.ok) {
           setCurrentUser('');
-          onLoginChange('');
+          if (onLoginChange) {
+            onLoginChange('');
+          }
           return;
         }
 
         const data = await response.json();
-        setCurrentUser(data.email);
-        onLoginChange(data.email);
+        setCurrentUser(data.email || '');
+        if (onLoginChange) {
+          onLoginChange(data.email || '');
+        }
       } catch {
         setCurrentUser('');
-        onLoginChange('');
+        if (onLoginChange) {
+          onLoginChange('');
+        }
       }
     }
 
@@ -27,44 +36,56 @@ export function Login({ onLoginChange }) {
   }, [onLoginChange]);
 
   async function handleLogin() {
+    setMessage('');
+
     const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        email: username,
-        password: 'password'
+        email,
+        password
       })
     });
 
     if (response.ok) {
       const data = await response.json();
-      setCurrentUser(data.email);
-      onLoginChange(data.email);
+      setCurrentUser(data.email || '');
+      if (onLoginChange) {
+        onLoginChange(data.email || '');
+      }
+      setMessage('Login successful.');
     } else {
-      alert('Login failed');
+      setMessage('Login failed.');
     }
   }
 
   async function handleRegister() {
+    setMessage('');
+
     const response = await fetch('/api/auth/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        email: username,
-        password: 'password'
+        email,
+        password
       })
     });
 
     if (response.ok) {
       const data = await response.json();
-      setCurrentUser(data.email);
-      onLoginChange(data.email);
+      setCurrentUser(data.email || '');
+      if (onLoginChange) {
+        onLoginChange(data.email || '');
+      }
+      setMessage('Account created.');
+    } else if (response.status === 409) {
+      setMessage('User already exists.');
     } else {
-      alert('Unable to create account');
+      setMessage('Unable to create account.');
     }
   }
 
@@ -74,7 +95,10 @@ export function Login({ onLoginChange }) {
     });
 
     setCurrentUser('');
-    onLoginChange('');
+    if (onLoginChange) {
+      onLoginChange('');
+    }
+    setMessage('Logged out.');
   }
 
   return (
@@ -84,13 +108,24 @@ export function Login({ onLoginChange }) {
 
         <form>
           <div className="mb-3">
-            <label className="form-label">Username</label>
+            <label className="form-label">Email</label>
             <input
-              type="text"
+              type="email"
               className="form-control"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter username"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter email"
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter password"
             />
           </div>
 
@@ -120,14 +155,12 @@ export function Login({ onLoginChange }) {
         </form>
       </section>
 
-      <section className="mt-5">
+      <section className="mt-4">
         <h3>Status</h3>
         <p>
-          Current user:{' '}
-          <strong>
-            {currentUser ? currentUser : '[Not logged in]'}
-          </strong>
+          Current user: <strong>{currentUser || '[Not logged in]'}</strong>
         </p>
+        {message && <p><strong>{message}</strong></p>}
       </section>
     </main>
   );
