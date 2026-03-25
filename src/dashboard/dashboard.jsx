@@ -9,10 +9,22 @@ export function Dashboard() {
   const [healthScore, setHealthScore] = useState(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('userName');
-    if (storedUser) {
-      setUserName(storedUser);
+    async function loadCurrentUser() {
+      try {
+        const response = await fetch('/api/auth/me');
+        if (!response.ok) {
+          setUserName('');
+          return;
+        }
+
+        const data = await response.json();
+        setUserName(data.email);
+      } catch {
+        setUserName('');
+      }
     }
+
+    loadCurrentUser();
   }, []);
 
   useEffect(() => {
@@ -55,51 +67,55 @@ export function Dashboard() {
   }, []);
 
   useEffect(() => {
-    function loadCheckins() {
-      const text = localStorage.getItem('checkins');
-      if (!text) return [];
+    async function loadCheckins() {
       try {
-        const parsed = JSON.parse(text);
-        return Array.isArray(parsed) ? parsed : [];
+        const response = await fetch('/api/checkins');
+
+        if (!response.ok) {
+          setCheckins([]);
+          setHealthScore(null);
+          return;
+        }
+
+        const data = await response.json();
+
+        function clamp(n, min, max) {
+          return Math.max(min, Math.min(max, n));
+        }
+
+        function computeScore(entry) {
+          if (!entry) return null;
+
+          const sleep = Number(entry.sleepHours);
+          const exercise = Number(entry.exerciseMinutes);
+          const stress = Number(entry.stress);
+          const mood = Number(entry.mood);
+
+          const sleepScore = clamp((sleep / 8) * 40, 0, 40);
+          const exerciseScore = clamp((exercise / 30) * 30, 0, 30);
+          const stressScore = clamp((6 - stress) * 5, 0, 25);
+          const moodScore = clamp(mood * 1, 0, 5);
+
+          return Math.round(clamp(sleepScore + exerciseScore + stressScore + moodScore, 0, 100));
+        }
+
+        setCheckins(data);
+        setHealthScore(computeScore(data[0]));
       } catch {
-        return [];
+        setCheckins([]);
+        setHealthScore(null);
       }
     }
 
-    function clamp(n, min, max) {
-      return Math.max(min, Math.min(max, n));
-    }
-
-    function computeScore(entry) {
-      if (!entry) return null;
-
-      const sleep = Number(entry.sleepHours);
-      const exercise = Number(entry.exerciseMinutes);
-      const stress = Number(entry.stress);
-      const mood = Number(entry.mood);
-
-      const sleepScore = clamp((sleep / 8) * 40, 0, 40);         // up to 40
-      const exerciseScore = clamp((exercise / 30) * 30, 0, 30);  // up to 30
-      const stressScore = clamp((6 - stress) * 5, 0, 25);        // 1->25, 5->5
-      const moodScore = clamp(mood * 1, 0, 5);                   // up to 5
-
-      return Math.round(clamp(sleepScore + exerciseScore + stressScore + moodScore, 0, 100));
-    }
-
-    const data = loadCheckins();
-    setCheckins(data);
-    setHealthScore(computeScore(data[0]));
+    loadCheckins();
   }, []);
 
   function clearHistory() {
-    localStorage.removeItem('checkins');
-    setCheckins([]);
-    setHealthScore(null);
+    alert('Check-in history is now stored in the service. Clear-history endpoint was not implemented for this deliverable.');
   }
 
   return (
     <main className="container my-4 p-4 bg-white rounded">
-      {/* Logged-in User Info */}
       <section>
         <h2>User</h2>
         <p>
@@ -107,7 +123,6 @@ export function Dashboard() {
         </p>
       </section>
 
-      {/* Application Data (User Health Data) */}
       <section>
         <h2>Your Health Data (Application Data)</h2>
 
@@ -137,7 +152,6 @@ export function Dashboard() {
         )}
       </section>
 
-      {/* Health Score Output */}
       <section>
         <h2>Your Health Score</h2>
 
@@ -166,7 +180,6 @@ export function Dashboard() {
         )}
       </section>
 
-      {/* Database Data Placeholder */}
       <section>
         <h2>Community Data (Database)</h2>
         <table className="table table-striped table-bordered">
@@ -187,17 +200,15 @@ export function Dashboard() {
         </table>
       </section>
 
-      {/* WebSocket Data Placeholder */}
       <section className="live-updates">
         <h2>Live Updates (WebSocket)</h2>
-          <ul>
-            {updates.map((update, index) => (
-              <li key={index}>{update}</li>
-            ))}
-          </ul>
+        <ul>
+          {updates.map((update, index) => (
+            <li key={index}>{update}</li>
+          ))}
+        </ul>
       </section>
 
-      {/* Third-party API Placeholder */}
       <section>
         <h2>Daily Mental Health Tip (3rd-party API)</h2>
         <p>&quot;{tip}&quot;</p>

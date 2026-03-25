@@ -5,11 +5,26 @@ export function Login({ onLoginChange }) {
   const [currentUser, setCurrentUser] = useState('');
 
   useEffect(() => {
-    const savedUser = localStorage.getItem('userName');
-    if (savedUser) {
-      setCurrentUser(savedUser);
+    async function loadCurrentUser() {
+      try {
+        const response = await fetch('/api/auth/me');
+        if (!response.ok) {
+          setCurrentUser('');
+          onLoginChange('');
+          return;
+        }
+
+        const data = await response.json();
+        setCurrentUser(data.email);
+        onLoginChange(data.email);
+      } catch {
+        setCurrentUser('');
+        onLoginChange('');
+      }
     }
-  }, []);
+
+    loadCurrentUser();
+  }, [onLoginChange]);
 
   async function handleLogin() {
     const response = await fetch('/api/auth/login', {
@@ -24,9 +39,9 @@ export function Login({ onLoginChange }) {
     });
 
     if (response.ok) {
-      localStorage.setItem('userName', username);
-      setCurrentUser(username);
-      onLoginChange(username);
+      const data = await response.json();
+      setCurrentUser(data.email);
+      onLoginChange(data.email);
     } else {
       alert('Login failed');
     }
@@ -45,9 +60,9 @@ export function Login({ onLoginChange }) {
     });
 
     if (response.ok) {
-      localStorage.setItem('userName', username);
-      setCurrentUser(username);
-      onLoginChange(username);
+      const data = await response.json();
+      setCurrentUser(data.email);
+      onLoginChange(data.email);
     } else {
       alert('Unable to create account');
     }
@@ -58,7 +73,6 @@ export function Login({ onLoginChange }) {
       method: 'DELETE'
     });
 
-    localStorage.removeItem('userName');
     setCurrentUser('');
     onLoginChange('');
   }

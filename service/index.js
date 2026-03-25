@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
+const DB = require('./database.js');
 
 const app = express();
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
@@ -10,18 +11,20 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.static('public'));
 
-const users = [];
-const sessions = {};
-
-function authMiddleware(req, res, next) {
+async function authMiddleware(req, res, next) {
   const token = req.cookies.token;
-  const email = sessions[token];
 
-  if (!email) {
+  if (!token) {
     return res.status(401).send({ msg: 'unauthorized' });
   }
 
-  req.userEmail = email;
+  const user = await DB.getUserByToken(token);
+
+  if (!user) {
+    return res.status(401).send({ msg: 'unauthorized' });
+  }
+
+  req.userEmail = user.email;
   next();
 }
 
@@ -36,16 +39,24 @@ app.post('/api/auth/create', async (req, res) => {
     return res.status(400).send({ msg: 'missing email or password' });
   }
 
-  const existing = users.find((u) => u.email === email);
+  const existing = await DB.getUser(email);
   if (existing) {
     return res.status(409).send({ msg: 'user already exists' });
   }
 
   const hash = await bcrypt.hash(password, 10);
+  const token = uuid.v4();
 
-  users.push({
+  await DB.addUser({
     email: email,
     password: hash,
+    token: token,
+  });
+
+  res.cookie('token', token, {
+    httpOnly: true,
+    sameSite: 'strict',
+    secure: false,
   });
 
   res.send({ email: email });
@@ -54,7 +65,7 @@ app.post('/api/auth/create', async (req, res) => {
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
 
-  const user = users.find((u) => u.email === email);
+  const user = await DB.getUser(email);
 
   if (!user) {
     return res.status(401).send({ msg: 'invalid email or password' });
@@ -67,21 +78,25 @@ app.post('/api/auth/login', async (req, res) => {
   }
 
   const token = uuid.v4();
-  sessions[token] = email;
+  await DB.updateUserToken(email, token);
 
   res.cookie('token', token, {
     httpOnly: true,
-    sameSite: 'strict'
+    sameSite: 'strict',
+    secure: false,
   });
 
   res.send({ email: email });
 });
 
-app.delete('/api/auth/logout', (req, res) => {
+app.delete('/api/auth/logout', async (req, res) => {
   const token = req.cookies.token;
 
   if (token) {
-    delete sessions[token];
+    const user = await DB.getUserByToken(token);
+    if (user) {
+      await DB.updateUserToken(user.email, null);
+    }
   }
 
   res.clearCookie('token');
@@ -89,8 +104,44 @@ app.delete('/api/auth/logout', (req, res) => {
   res.send({});
 });
 
-app.get('/api/protected', authMiddleware, (req, res) => {
-  res.send({ msg: `hello ${req.userEmail}` });
+app.get('/api/auth/me', async (req, res) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).send({ msg: 'unauthorized' });
+  }
+
+  const user = await DB.getUserByToken(token);
+
+  if (!user) {
+    return res.status(401).send({ msg: 'unauthorized' });
+  }
+
+  res.send({ email: user.email });
+});
+
+app.get('/api/checkins', authMiddleware, async (req, res) => {
+  const checkins = await DB.getCheckinsByUser(req.userEmail);
+  res.send(checkins);
+});
+
+app.post('/api/checkins', authMiddleware, async (req, res) => {
+  const { sleepHours, exerciseMinutes, stress, mood, date } = req.body;
+
+  const entry = {
+    id: uuid.v4(),
+    userEmail: req.userEmail,
+    sleepHours: Number(sleepHours),
+    exerciseMinutes: Number(exerciseMinutes),
+    stress: Number(stress),
+    mood: Number(mood),
+    date: date || new Date().toLocaleString(),
+    createdAt: new Date(),
+  };
+
+  await DB.addCheckin(entry);
+
+  res.send(entry);
 });
 
 app.get('/api/quote', async (req, res) => {
@@ -100,7 +151,7 @@ app.get('/api/quote', async (req, res) => {
 
     res.send({
       content: data[0].q,
-      author: data[0].a
+      author: data[0].a,
     });
   } catch {
     res.status(500).send({ msg: 'failed to fetch quote' });

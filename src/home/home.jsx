@@ -8,47 +8,64 @@ export function Home() {
   const [healthScore, setHealthScore] = useState(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('userName');
-    if (storedUser) {
-      setUserName(storedUser);
+    async function loadCurrentUser() {
+      try {
+        const response = await fetch('/api/auth/me');
+        if (!response.ok) {
+          setUserName('');
+          return;
+        }
+
+        const data = await response.json();
+        setUserName(data.email);
+      } catch {
+        setUserName('');
+      }
     }
+
+    loadCurrentUser();
   }, []);
 
   useEffect(() => {
-  function loadCheckins() {
-    const text = localStorage.getItem('checkins');
-    if (!text) return [];
-    try {
-      const parsed = JSON.parse(text);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
+    async function loadCheckins() {
+      try {
+        const response = await fetch('/api/checkins');
+
+        if (!response.ok) {
+          setHealthScore(null);
+          return;
+        }
+
+        const data = await response.json();
+
+        function clamp(n, min, max) {
+          return Math.max(min, Math.min(max, n));
+        }
+
+        function computeScore(entry) {
+          if (!entry) return null;
+
+          const sleep = Number(entry.sleepHours);
+          const exercise = Number(entry.exerciseMinutes);
+          const stress = Number(entry.stress);
+          const mood = Number(entry.mood);
+
+          const sleepScore = clamp((sleep / 8) * 40, 0, 40);
+          const exerciseScore = clamp((exercise / 30) * 30, 0, 30);
+          const stressScore = clamp((6 - stress) * 5, 0, 25);
+          const moodScore = clamp(mood * 1, 0, 5);
+
+          return Math.round(clamp(sleepScore + exerciseScore + stressScore + moodScore, 0, 100));
+        }
+
+        setHealthScore(computeScore(data[0]));
+      } catch {
+        setHealthScore(null);
+      }
     }
-  }
 
-  function clamp(n, min, max) {
-    return Math.max(min, Math.min(max, n));
-  }
-
-  function computeScore(entry) {
-    if (!entry) return null;
-
-    const sleep = Number(entry.sleepHours);
-    const exercise = Number(entry.exerciseMinutes);
-    const stress = Number(entry.stress);
-    const mood = Number(entry.mood);
-
-    const sleepScore = clamp((sleep / 8) * 40, 0, 40);
-    const exerciseScore = clamp((exercise / 30) * 30, 0, 30);
-    const stressScore = clamp((6 - stress) * 5, 0, 25);
-    const moodScore = clamp(mood * 1, 0, 5);
-
-    return Math.round(clamp(sleepScore + exerciseScore + stressScore + moodScore, 0, 100));
-  }
-
-  const data = loadCheckins();
-  setHealthScore(computeScore(data[0]));
-}, []);
+    loadCheckins();
+  }, []);
 
   useEffect(() => {
     fetch('/api/quote')
@@ -147,6 +164,16 @@ export function Home() {
       <section>
         <h2>Daily Wellness Tip (3rd-party API)</h2>
         <p>&quot;{tip}&quot;</p>
+      </section>
+
+      <section>
+        <h2>Project Repository</h2>
+        <p>
+          GitHub:{' '}
+          <a href="https://github.com/CMCHJK/startup.git" target="_blank" rel="noreferrer">
+            https://github.com/CMCHJK/startup.git
+          </a>
+        </p>
       </section>
 
       <section>

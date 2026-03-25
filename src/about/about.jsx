@@ -38,10 +38,7 @@ export function About() {
             <strong>Authentication Service</strong>: users can register, login, and logout through backend API endpoints
           </li>
           <li>
-            <strong>Protected Endpoints</strong>: certain API routes require authentication
-          </li>
-          <li>
-            <strong>LocalStorage</strong>: check-in history stored locally in the browser
+            <strong>Check-in Service</strong>: user check-ins are stored and retrieved through auth-protected backend endpoints
           </li>
           <li>
             <strong>React Hooks</strong>: application state managed using <code>useState</code> and <code>useEffect</code>
