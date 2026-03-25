@@ -17,7 +17,7 @@ export function Dashboard() {
         }
 
         const data = await response.json();
-        setUserName(data.email || '');
+        setUserName(data.email);
       } catch {
         setUserName('');
       }
@@ -28,7 +28,7 @@ export function Dashboard() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const randomUser = 'student' + Math.floor(Math.random() * 100);
+      const randomUser = "student" + Math.floor(Math.random() * 100);
       const messages = [
         `${randomUser} submitted a check-in`,
         `${randomUser} score updated`,
@@ -37,6 +37,7 @@ export function Dashboard() {
       ];
 
       const msg = messages[Math.floor(Math.random() * messages.length)];
+
       setUpdates((prev) => [msg, ...prev.slice(0, 4)]);
     }, 3000);
 
@@ -82,7 +83,7 @@ export function Dashboard() {
           const sleepScore = clamp((sleep / 8) * 40, 0, 40);
           const exerciseScore = clamp((exercise / 30) * 30, 0, 30);
           const stressScore = clamp((6 - stress) * 5, 0, 25);
-          const moodScore = clamp(mood, 0, 5);
+          const moodScore = clamp(mood * 1, 0, 5);
 
           return Math.round(clamp(sleepScore + exerciseScore + stressScore + moodScore, 0, 100));
         }
@@ -97,6 +98,10 @@ export function Dashboard() {
 
     loadCheckins();
   }, []);
+
+  function clearHistory() {
+    alert('Check-in history is now stored in the service. Clear-history endpoint was not implemented for this deliverable.');
+  }
 
   return (
     <main className="container my-4 p-4 bg-white rounded">
@@ -126,8 +131,8 @@ export function Dashboard() {
 
             <h3 className="mt-4">Recent history</h3>
             <ul>
-              {checkins.slice(0, 5).map((c) => (
-                <li key={c.id}>
+              {checkins.slice(0, 5).map((c, idx) => (
+                <li key={idx}>
                   {c.date} — sleep {c.sleepHours}h, exercise {c.exerciseMinutes}m, stress {c.stress}, mood {c.mood}
                 </li>
               ))}
@@ -138,6 +143,12 @@ export function Dashboard() {
 
       <section>
         <h2>Your Health Score</h2>
+
+        <div className="mb-3">
+          <button type="button" className="btn btn-outline-danger" onClick={clearHistory} disabled={checkins.length === 0}>
+            Clear check-in history
+          </button>
+        </div>
 
         {healthScore === null ? (
           <p>No score yet (submit a check-in first).</p>

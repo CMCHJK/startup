@@ -143,15 +143,6 @@ export function Home() {
       </section>
 
       <section>
-        <h2>Community Statistics (Database Data)</h2>
-        <ul>
-          <li>Average score: 68</li>
-          <li>Total users: 1240</li>
-          <li>Most common issue: Lack of sleep</li>
-        </ul>
-      </section>
-
-      <section>
         <h2>Live Updates (WebSocket)</h2>
         <p>Other students checking in right now:</p>
         <ul>
