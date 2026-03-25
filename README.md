@@ -147,8 +147,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Stores data in MongoDB** - I did not complete this part of the deliverable.
-- [ ] **Stores credentials in MongoDB** - I did not complete this part of the deliverable.
+- [x] **Stores data in MongoDB** - I replaced the temporary in-memory storage with MongoDB and now store and retrieve user check-in data from the database through backend endpoints.
+- [x] **Stores credentials in MongoDB** - I store user credentials in MongoDB with hashed passwords using bcryptjs and manage login sessions using tokens stored in the database.
 
 ## 🚀 WebSocket deliverable
 

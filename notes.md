@@ -38,6 +38,18 @@ Simon domain name: https://simon.doxys.click
 - Moved static assets into the `public` directory and referenced them using absolute paths.
 - Used a deployment script (`deployReact.sh`) to build and deploy the bundled application to the production server.
 
+### DB Deliverable Notes
+
+For this deliverable I connected my backend service to MongoDB Atlas and replaced temporary backend memory with persistent database storage.
+
+- User credentials are now stored in MongoDB instead of memory.
+- Passwords are hashed using bcryptjs before being saved.
+- Login sessions are managed using tokens stored in MongoDB.
+- Daily health check-in data is stored in MongoDB and loaded in the dashboard through backend APIs.
+- Protected endpoints require authentication using cookies and tokens.
+
+This helped me understand how to persist application data and credentials using a real database instead of temporary storage.
+
 
 
 # CS 260 Example Notes
