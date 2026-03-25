@@ -13,17 +13,22 @@ export default function App() {
   const [userName, setUserName] = useState('');
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('userName');
-    if (storedUser) {
-      setUserName(storedUser);
+    async function checkAuth() {
+      try {
+        const response = await fetch('/api/auth/me');
+        if (!response.ok) {
+          setUserName('');
+          return;
+        }
+
+        const data = await response.json();
+        setUserName(data.email || '');
+      } catch {
+        setUserName('');
+      }
     }
 
-    const interval = setInterval(() => {
-      const current = localStorage.getItem('userName') || '';
-      setUserName(current);
-    }, 500);
-
-    return () => clearInterval(interval);
+    checkAuth();
   }, []);
 
   return (
@@ -47,9 +52,9 @@ export default function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/checkin" element={userName ? <Checkin /> : <Login />} />
-          <Route path="/dashboard" element={userName ? <Dashboard /> : <Login />} />
+          <Route path="/login" element={<Login onLoginChange={setUserName} />} />
+          <Route path="/checkin" element={userName ? <Checkin /> : <Login onLoginChange={setUserName} />} />
+          <Route path="/dashboard" element={userName ? <Dashboard /> : <Login onLoginChange={setUserName} />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
