@@ -160,7 +160,11 @@ export function Login({ onLoginChange }) {
         <p>
           Current user: <strong>{currentUser || '[Not logged in]'}</strong>
         </p>
-        {message && <p><strong>{message}</strong></p>}
+        {message && (
+          <p>
+            <strong>{message}</strong>
+          </p>
+        )}
       </section>
     </main>
   );
