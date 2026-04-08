@@ -80,11 +80,11 @@ export function Home() {
 
   useEffect(() => {
     const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    const socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+    const socket = new WebSocket(`${protocol}://${window.location.hostname}:4000`);
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      setLiveUpdates((prev) => [data.msg, ...prev.slice(0, 3)]);
+      setLiveUpdates((prev) => [data.msg, ...prev.slice(0, 9)]);
     };
 
     return () => {

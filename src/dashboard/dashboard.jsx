@@ -32,7 +32,7 @@ export function Dashboard() {
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      setUpdates((prev) => [data.msg, ...prev.slice(0, 4)]);
+      setUpdates((prev) => [data.msg, ...prev.slice(0, 9)]);
     };
 
     return () => {
