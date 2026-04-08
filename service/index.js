@@ -18,6 +18,8 @@ const wss = new WebSocketServer({ server });
 
 function broadcastEvent(event) {
   const message = JSON.stringify(event);
+  console.log('Broadcasting event:', message);
+  console.log('Connected clients:', wss.clients.size);
 
   wss.clients.forEach((client) => {
     if (client.readyState === 1) {
@@ -167,6 +169,8 @@ app.post('/api/checkins', authMiddleware, async (req, res) => {
   };
 
   await DB.addCheckin(entry);
+
+  console.log('Check-in saved for:', req.userEmail);
 
   broadcastEvent({
     msg: `${req.userEmail} submitted a check-in`
