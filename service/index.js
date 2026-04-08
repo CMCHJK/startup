@@ -19,6 +19,10 @@ const wss = new WebSocketServer({ server });
 wss.on('connection', (socket) => {
   console.log('WebSocket connection opened');
 
+  socket.send(JSON.stringify({
+    msg: 'connected to server'
+  }));
+
   socket.on('close', () => {
     console.log('WebSocket connection closed');
   });
