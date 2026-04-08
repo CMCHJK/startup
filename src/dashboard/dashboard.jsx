@@ -27,21 +27,20 @@ export function Dashboard() {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const randomUser = "student" + Math.floor(Math.random() * 100);
-      const messages = [
-        `${randomUser} submitted a check-in`,
-        `${randomUser} score updated`,
-        `${randomUser} logged in`,
-        `${randomUser} logged out`
-      ];
+    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
 
-      const msg = messages[Math.floor(Math.random() * messages.length)];
+    socket.onopen = () => {
+      console.log('WebSocket connected');
+    };
 
-      setUpdates((prev) => [msg, ...prev.slice(0, 4)]);
-    }, 3000);
+    socket.onclose = () => {
+      console.log('WebSocket disconnected');
+    };
 
-    return () => clearInterval(interval);
+    return () => {
+      socket.close();
+    };
   }, []);
 
   useEffect(() => {
