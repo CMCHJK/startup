@@ -50,7 +50,18 @@ For this deliverable I connected my backend service to MongoDB Atlas and replace
 
 This helped me understand how to persist application data and credentials using a real database instead of temporary storage.
 
+### WebSocket Deliverable Notes
 
+For this deliverable I added realtime communication between the frontend and backend using WebSocket.
+
+- Installed and used the `ws` library in the backend service.
+- Updated the backend to create an HTTP server and attach a WebSocket server to it.
+- Implemented WebSocket broadcasting so that when a user submits a new health check-in, connected clients receive a realtime update.
+- Replaced the old mock `setInterval` live updates in the React frontend with real WebSocket connections.
+- Displayed incoming WebSocket messages in the Home and Dashboard pages.
+- Configured `vite.config.js` to support WebSocket proxying during local development.
+- Learned that realtime features can behave differently in local development and production, especially when proxying or deploying behind HTTPS and a reverse proxy.
+- Learned that keeping WebSocket-driven UI state in browser storage can help preserve updates across page navigation and refreshes.
 
 # CS 260 Example Notes
 

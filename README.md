@@ -154,8 +154,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Backend listens for WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Frontend makes WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Data sent over WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **WebSocket data displayed** - I did not complete this part of the deliverable.
-- [ ] **Application is fully functional** - I did not complete this part of the deliverable.
+- [ ] **Backend listens for WebSocket connection** - I updated the backend service to create an HTTP server and attach a WebSocket server using the `ws` library.
+- [ ] **Frontend makes WebSocket connection** - The Home page and Dashboard page now open WebSocket connections so they can receive live activity updates from the backend.
+- [ ] **Data sent over WebSocket connection** - After a user submits a check-in, the backend broadcasts a WebSocket message to connected clients indicating that a new check-in was recorded.
+- [ ] **WebSocket data displayed** - Live update messages are displayed in the Home and Dashboard pages in the “Live Updates (WebSocket)” sections.
+- [ ] **Application is fully functional** - I removed the old mock interval-based live updates and replaced them with real WebSocket-driven updates connected to the actual backend check-in workflow.
