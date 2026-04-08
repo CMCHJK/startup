@@ -1,4 +1,6 @@
 const express = require('express');
+const http = require('http');
+const { WebSocketServer } = require('ws');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
@@ -10,6 +12,17 @@ const port = process.argv.length > 2 ? process.argv[2] : 4000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static('public'));
+
+const server = http.createServer(app);
+const wss = new WebSocketServer({ server });
+
+wss.on('connection', (socket) => {
+  console.log('WebSocket connection opened');
+
+  socket.on('close', () => {
+    console.log('WebSocket connection closed');
+  });
+});
 
 async function authMiddleware(req, res, next) {
   const token = req.cookies.token;
@@ -158,6 +171,6 @@ app.get('/api/quote', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
