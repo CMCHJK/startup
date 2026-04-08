@@ -80,19 +80,11 @@ export function Home() {
 
   useEffect(() => {
     const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    const socket = new WebSocket(`${protocol}://${window.location.hostname}:4000/ws`);
-
-    socket.onopen = () => {
-      console.log('WebSocket connected (home)');
-    };
+    const socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       setLiveUpdates((prev) => [data.msg, ...prev.slice(0, 3)]);
-    };
-
-    socket.onclose = () => {
-      console.log('WebSocket disconnected (home)');
     };
 
     return () => {

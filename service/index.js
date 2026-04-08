@@ -18,8 +18,6 @@ const wss = new WebSocketServer({ server });
 
 function broadcastEvent(event) {
   const message = JSON.stringify(event);
-  console.log('Broadcasting event:', message);
-  console.log('Connected clients:', wss.clients.size);
 
   wss.clients.forEach((client) => {
     if (client.readyState === 1) {
@@ -29,15 +27,7 @@ function broadcastEvent(event) {
 }
 
 wss.on('connection', (socket) => {
-  console.log('WebSocket connection opened');
-
-  socket.send(JSON.stringify({
-    msg: 'connected to server'
-  }));
-
-  socket.on('close', () => {
-    console.log('WebSocket connection closed');
-  });
+  socket.on('close', () => {});
 });
 
 async function authMiddleware(req, res, next) {
@@ -169,8 +159,6 @@ app.post('/api/checkins', authMiddleware, async (req, res) => {
   };
 
   await DB.addCheckin(entry);
-
-  console.log('Check-in saved for:', req.userEmail);
 
   broadcastEvent({
     msg: `${req.userEmail} submitted a check-in`

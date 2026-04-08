@@ -28,19 +28,11 @@ export function Dashboard() {
 
   useEffect(() => {
     const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    const socket = new WebSocket(`${protocol}://${window.location.hostname}:4000/ws`);
-
-    socket.onopen = () => {
-      console.log('WebSocket connected');
-    };
+    const socket = new WebSocket(`${protocol}://${window.location.hostname}:4000`);
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       setUpdates((prev) => [data.msg, ...prev.slice(0, 4)]);
-    };
-
-    socket.onclose = () => {
-      console.log('WebSocket disconnected');
     };
 
     return () => {
