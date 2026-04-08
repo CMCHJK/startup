@@ -34,6 +34,11 @@ export function Dashboard() {
       console.log('WebSocket connected');
     };
 
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      setUpdates((prev) => [data.msg, ...prev.slice(0, 4)]);
+    };
+
     socket.onclose = () => {
       console.log('WebSocket disconnected');
     };
@@ -170,11 +175,15 @@ export function Dashboard() {
 
       <section className="live-updates">
         <h2>Live Updates (WebSocket)</h2>
-        <ul>
-          {updates.map((update, index) => (
-            <li key={index}>{update}</li>
-          ))}
-        </ul>
+        {updates.length === 0 ? (
+          <p>No live updates yet.</p>
+        ) : (
+          <ul>
+            {updates.map((update, index) => (
+              <li key={index}>{update}</li>
+            ))}
+          </ul>
+        )}
       </section>
 
       <section>
