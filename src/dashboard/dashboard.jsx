@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
+const updatesKey = 'dashboardLiveUpdates';
+
 export function Dashboard() {
   const [userName, setUserName] = useState('');
   const [updates, setUpdates] = useState([]);
   const [tip, setTip] = useState('');
   const [checkins, setCheckins] = useState([]);
   const [healthScore, setHealthScore] = useState(null);
+
+  useEffect(() => {
+    const savedUpdates = localStorage.getItem(updatesKey);
+    if (savedUpdates) {
+      setUpdates(JSON.parse(savedUpdates));
+    }
+  }, []);
 
   useEffect(() => {
     async function loadCurrentUser() {
@@ -32,7 +41,11 @@ export function Dashboard() {
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      setUpdates((prev) => [data.msg, ...prev.slice(0, 9)]);
+      setUpdates((prev) => {
+        const nextUpdates = [data.msg, ...prev.slice(0, 19)];
+        localStorage.setItem(updatesKey, JSON.stringify(nextUpdates));
+        return nextUpdates;
+      });
     };
 
     return () => {

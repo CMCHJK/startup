@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+const updatesKey = 'homeLiveUpdates';
+
 export function Home() {
   const [userName, setUserName] = useState('');
   const [liveUpdates, setLiveUpdates] = useState([]);
   const [tip, setTip] = useState('');
   const [healthScore, setHealthScore] = useState(null);
+
+  useEffect(() => {
+    const savedUpdates = localStorage.getItem(updatesKey);
+    if (savedUpdates) {
+      setLiveUpdates(JSON.parse(savedUpdates));
+    }
+  }, []);
 
   useEffect(() => {
     async function loadCurrentUser() {
@@ -84,7 +93,11 @@ export function Home() {
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      setLiveUpdates((prev) => [data.msg, ...prev.slice(0, 9)]);
+      setLiveUpdates((prev) => {
+        const nextUpdates = [data.msg, ...prev.slice(0, 19)];
+        localStorage.setItem(updatesKey, JSON.stringify(nextUpdates));
+        return nextUpdates;
+      });
     };
 
     return () => {
