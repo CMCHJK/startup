@@ -89,7 +89,7 @@ export function Home() {
 
   useEffect(() => {
     const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    const socket = new WebSocket(`${protocol}://${window.location.hostname}:4000`);
+    const socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
